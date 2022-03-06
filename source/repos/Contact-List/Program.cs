@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 
 namespace Contact_List
 {
     class Program
     {
-        static List<Person> People = new List<Person>();
-        Person person = new Person();
+        static List<Person> Persons = new List<Person>();
         static void Main(string[] args)
         {
            while(Console.ReadLine() != "Exit")
@@ -29,8 +29,7 @@ namespace Contact_List
                     case "Search":
                         SearchPerson();
                         break;
-                    //default:
-                    //    command;
+                    default:
                         break;
                 }
                 if (command == null)
@@ -42,38 +41,28 @@ namespace Contact_List
         }
         class Person
         {
-            string firstName { get; set; }
-            string lastName { get; set; }
+            public string firstName { get; set; }
+            public string lastName { get; set; }
             public string fullName => firstName + " " + lastName;
             public string phoneNumber { get; set; }
             public string emailAddress { get; set; }
             public string streetAddress { get; set; }
-            //public string[] Addresses { get; set; }
-            //public static List<Person> People = new List<Person>();
         }
-
         static void AddPerson()
         {
             Person person = new Person();
             Console.WriteLine("Enter First Name: ");
-            var firstName = Console.ReadLine();
+            person.firstName = Console.ReadLine();
             Console.WriteLine("Enter Last Name: ");
-            var lastName = Console.ReadLine();
+            person.lastName = Console.ReadLine();
             Console.WriteLine("Enter Phone Number: ");
-            var phoneNumber = Console.ReadLine();
+            person.phoneNumber = Console.ReadLine();
             Console.WriteLine("Enter Email Address: ");
-            var emailAddress = Console.ReadLine();
+            person.emailAddress = Console.ReadLine();
             Console.WriteLine("Enter Street Address: ");
-            var streetAddress = Console.ReadLine();
-            People.Add(person);
-            //Console.WriteLine("Enter Email Address: ");
-            //string[] addresses = new string[2];
-            //addresses[0] = Console.ReadLine();
-            //Console.WriteLine("Enter Street Address: ");
-            //addresses[1] = Console.ReadLine();
-            //var Addresses = addresses;
-            //List<Person> list = new List<Person>();
+            person.streetAddress = Console.ReadLine();
 
+            Persons.Add(person);
         }
         static void PrintPerson(Person person)
         {
@@ -81,24 +70,21 @@ namespace Contact_List
             string phone = person.phoneNumber;
             string email = person.emailAddress;
             string street = person.streetAddress;
-            //var email = person.Addresses[0];
-            //var address = person.Addresses[1];
-            Console.WriteLine($"Name: {person.fullName}", name);
-            Console.WriteLine($"Phone Number: {person.phoneNumber}", phone);
-            Console.WriteLine($"Email: {person.emailAddress}", email);
-            Console.WriteLine($"Address: {person.streetAddress}", street);
-            //Console.WriteLine($"Email Address: {person.Addresses[0]}", email);
-            //Console.WriteLine($"Street Address: {person.Addresses[1]}", address);
+
+            Console.WriteLine("Name: " + name);
+            Console.WriteLine("Phone Number: " + phone);
+            Console.WriteLine("Email: " + email);
+            Console.WriteLine("Address: " + street);
         }
         static void Announce()
         {
-            if(People.Count == 0)
+            if(Persons.Count == 0)
             {
                 Console.WriteLine("Your Contacts look empty. Press any key to continue");
                 Console.ReadKey();
             }
             Console.WriteLine("You are viewing: ");
-            foreach(Person person in People)
+            foreach(Person person in Persons)
             {
                 PrintPerson(person);
             }
@@ -109,28 +95,29 @@ namespace Contact_List
         {
             Console.WriteLine("Enter the name of person to look for.");
             var fullName = Console.ReadLine();
-            var person = People.FirstOrDefault(x => x.fullName.ToLower() == fullName.ToLower());
+            Person person = Persons.FirstOrDefault(x => x.fullName.ToLower() == fullName.ToLower());
+            Console.WriteLine("Is this the droid you're looking for?");
+            PrintPerson(person);
+            Console.WriteLine("Press any key to continue.");
+            Console.ReadKey();
             if (person == null)
             {
                 Console.WriteLine("Not Found. Press any key to continue");
                 Console.ReadKey();
                 return;
             }
-            Console.WriteLine("Is thsi the droid you're looking for?");
-            Console.ReadKey();
-            return;
         }
         private static void RemoveContact()
         {
             Console.WriteLine("Enter the name of person to remove.");
             var fullName = Console.ReadLine();
-            var person = People.FirstOrDefault(x => x.fullName.ToLower() == fullName.ToLower());
+            var person = Persons.FirstOrDefault(x => x.fullName.ToLower() == fullName.ToLower());
             Console.WriteLine("Want to remove this person from your Contacts?");
             PrintPerson(person);
 
             if(Console.ReadLine() == "yes")
             {
-                People.Remove(person);
+                Persons.Remove(person);
                 Console.WriteLine("Person Removed. Press any key to continue.");
                 Console.ReadKey();
             }
