@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Linq;
 
 namespace Contact_List
@@ -10,7 +9,7 @@ namespace Contact_List
         static List<Person> Persons = new List<Person>();
         static void Main(string[] args)
         {
-           while(Console.ReadLine() != "Exit")
+            while (Console.ReadLine() != "Exit")
             {
                 Console.Clear();
                 Console.WriteLine("Please choose a command: Add, Remove, View, Search, or Exit");
@@ -43,7 +42,7 @@ namespace Contact_List
         {
             public string firstName { get; set; }
             public string lastName { get; set; }
-            public string fullName => firstName + " " + lastName;
+            public string fullName => 
             public string phoneNumber { get; set; }
             public string emailAddress { get; set; }
             public string streetAddress { get; set; }
@@ -66,10 +65,10 @@ namespace Contact_List
         }
         static void PrintPerson(Person person)
         {
-            string name = person.fullName;
-            string phone = person.phoneNumber;
-            string email = person.emailAddress;
-            string street = person.streetAddress;
+            //string name = person.fullName;
+            //string phone = person.phoneNumber;
+            //string email = person.emailAddress;
+            //string street = person.streetAddress;
 
             Console.WriteLine("Name: " + name);
             Console.WriteLine("Phone Number: " + phone);
@@ -78,13 +77,13 @@ namespace Contact_List
         }
         static void Announce()
         {
-            if(Persons.Count == 0)
+            if (Persons.Count == 0)
             {
                 Console.WriteLine("Your Contacts look empty. Press any key to continue");
                 Console.ReadKey();
             }
             Console.WriteLine("You are viewing: ");
-            foreach(Person person in Persons)
+            foreach (Person person in Persons)
             {
                 PrintPerson(person);
             }
@@ -115,7 +114,7 @@ namespace Contact_List
             Console.WriteLine("Want to remove this person from your Contacts?");
             PrintPerson(person);
 
-            if(Console.ReadLine() == "yes")
+            if (Console.ReadLine() == "yes")
             {
                 Persons.Remove(person);
                 Console.WriteLine("Person Removed. Press any key to continue.");
@@ -123,4 +122,5 @@ namespace Contact_List
             }
         }
     }
+}
 }
