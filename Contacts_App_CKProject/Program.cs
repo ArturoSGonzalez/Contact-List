@@ -4,9 +4,10 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using CsvHelper;
-using CsvHelper.Configuration;
+using CsvHelper.Configuration.Attributes;
 
-namespace Contact_List
+
+namespace Contacts_App_CKProject
 {
     class Program
     {
@@ -18,8 +19,6 @@ namespace Contact_List
             {
                 people = csv.GetRecords<Person>().ToList();
             }
-            //this is pur master loop. asking user to choose a command.
-            //using a switch statement to route the user input 
             string command = "";
             while (command != "Exit")
             {
@@ -28,7 +27,7 @@ namespace Contact_List
                 Console.WriteLine("Please choose a command.");
                 Console.WriteLine("Add, View, Search, Remove, or Exit");
                 command = Console.ReadLine();
-                switch(command)
+                switch (command)
                 {
                     case "Add":
                         AddPerson();
@@ -50,10 +49,15 @@ namespace Contact_List
         }
         class Person
         {
+            [Name("first name")]
             public string firstName { get; set; }
+            [Name("last name")]
             public string lastName { get; set; }
+            [Name("full name")]
             public string fullName => firstName + " " + lastName;
+            [Name("phone number")]
             public string phoneNumber { get; set; }
+            [Name("email")]
             public string email { get; set; }
         }
         static void AddPerson()
@@ -72,14 +76,15 @@ namespace Contact_List
             WriteToCsv(people);
         }
 
-        static void WriteToCsv(List<Person>people)
+        static void WriteToCsv(List<Person> people)
         {
             using (StreamWriter writer = new StreamWriter(@"data/people.csv"))
-            using (var csv = new CsvWriter(writer,CultureInfo.InvariantCulture))
+            using (var csv = new CsvWriter(writer, CultureInfo.InvariantCulture))
             {
                 csv.WriteRecords(people);
             }
         }
+
         static void Announce()
         {
             if (people.Count == 0)
@@ -105,7 +110,6 @@ namespace Contact_List
             Console.WriteLine("Name: " + person.fullName);
             Console.WriteLine("Phone Number: " + person.phoneNumber);
             Console.WriteLine("Email: " + person.email);
-            Console.WriteLine("----------------------------------");
         }
         static void Search()
         {
@@ -120,15 +124,11 @@ namespace Contact_List
             }
             else
                 Console.WriteLine("Is this the droid you're looking for?");
-                people.ForEach(PrintPerson);
-                Console.WriteLine("Press any key to continue");
-                Console.ReadKey();
+            PrintPerson(person);
+            Console.WriteLine("Press any key to continue");
+            Console.ReadKey();
         }
-        //asking user to input full name of contact to remove
-        //if the full name isnt entered correctly it will return null,
-        //trying to figure out how to search email or possibly phone number
-        //when Linq does find a name in upper or lower case it will display and ask
-        //user wants to continue with deleting contact.
+
         private static void Remove()
         {
             Console.WriteLine("Enter the full name of person to remove.");
@@ -147,7 +147,7 @@ namespace Contact_List
                 PrintPerson(person);
                 Console.WriteLine("Type Y to confirm.");
                 string decision = Console.ReadLine();
-                if(decision == "Y")
+                if (decision == "Y")
                 {
                     people.Remove(person);
                     Y = true;
