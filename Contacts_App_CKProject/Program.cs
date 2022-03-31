@@ -84,7 +84,6 @@ namespace Contacts_App_CKProject
                 csv.WriteRecords(people);
             }
         }
-
         static void Announce()
         {
             if (people.Count == 0)
